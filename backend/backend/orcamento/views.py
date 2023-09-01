@@ -12,22 +12,66 @@ from rest_framework.views import APIView
 import json
 
 
+class OrcamentoViewSet(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = [JSONRenderer]
+
+    @staticmethod
+    def get(request):
+
+        id_orc = request.query_params.get("id_orc", None)
+
+        try:
+            # queryset = Items.objects.all()
+            queryset = Orcamentos.objects.filter(id_orc=id_orc, is_active=True)
+
+            orcs = []
+            for orc in queryset:
+                orc.append({
+                    'id': orc.id,
+                    'nome_item': orc.nome_item,
+                    'valor': orc.valor,
+                    'id_catego': orc.categoria.id,
+                    'name_catego': orc.categoria.nome_catego,
+                })
+            return Response({"orcamento": orcs})
+
+        except Exception as e:
+            return Response({
+                'status': '400',
+                'message': f'Error. {e}'
+            })
+
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
+
 class OrcamentosAllViewSet(APIView):
     permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [JSONRenderer]
 
     @staticmethod
-    def get(self, request):
-        queryset = Orcamentos.objects.all()
-        orcaments = []
-        for orc in queryset:
-            orcaments.append({
-                'id': orc.id_orc,
-                'qtd_itens': orc.qtd_itens,
-                'valor_orc': orc.valor_orc,
-                'descri_orc': orc.descri_orc,
+    def get(request):
+
+        try:
+            queryset = Orcamentos.objects.all()
+            orcaments = []
+            for orc in queryset:
+                orcaments.append({
+                    'id': orc.id_orc,
+                    'qtd_itens': orc.qtd_itens,
+                    'valor_orc': orc.valor_orc,
+                    'descri_orc': orc.descri_orc,
+                })
+            return Response({"orcamentos": orcaments})
+
+        except Orcamentos.DoesNotExist:
+            return Response({
+                'status': '400',
+                'message': f'Sem Orcamentos para listar'
             })
-        return Response({"orcamentos": orcaments})
+
 
     @classmethod
     def get_extra_actions(cls):
@@ -41,10 +85,12 @@ class OrcamentosAddViewSet(APIView):
     @staticmethod
     def post(request, *args, **kwargs):
 
-        qtd_itens: int = request.data['qtd_itens']
-        valor_orc: float = request.data['valor_orc']
-        descri_orc: str = request.data['descri_orc']
-        list_items: list[Items] = json.loads(request.data['items'])
+        data = json.loads(request.body)
+
+        qtd_itens: int = data['qtd_itens']
+        valor_orc: float = data['valor_orc']
+        descri_orc: str = data['descri_orc']
+        list_items: list[dict] = data['items']
 
         orc = None
 
@@ -56,7 +102,7 @@ class OrcamentosAddViewSet(APIView):
                 descri_orc=descri_orc
             )
 
-            orc.save(force_update=True)
+            orc.save()
 
         else:
             return Response({
@@ -67,11 +113,13 @@ class OrcamentosAddViewSet(APIView):
         try:
             for item in list_items:
                 item_orc = ItemsOrc(
-                    id_item=item.id_item,
-                    id_orc=orc.id
+                    item_id=item['id_item'],
+                    qtd=item['qtd'],
+                    valor=item['valor'],
+                    orcamento_id=orc.id_orc
                 )
 
-                item_orc.save(force_update=True)
+                item_orc.save()
 
         except Exception as e:
             return Response({

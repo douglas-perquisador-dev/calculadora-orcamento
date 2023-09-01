@@ -4,8 +4,14 @@ from django.http import HttpResponse
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
-from backend.orcamento.views import OrcamentosAllViewSet, OrcamentosAddViewSet
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from backend.categorias.views import CategoriaViewSet, CategoriaAddViewSet, CategoriaAllViewSet
+from backend.items.views import ItemsAllViewSet, ItemsAddViewSet, ItemViewSet
+from backend.orcamento.views import OrcamentosAllViewSet, OrcamentosAddViewSet, OrcamentoViewSet
+from backend.users.views import RegisterView, LogoutView
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -25,11 +31,26 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='DOCS'),
     path('admin/', admin.site.urls),
 
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('register/', RegisterView.as_view(), name="sign_up"),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    # path('reset_password/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    # path('change_password/', ChangePasswordView.as_view(), name='change_password'),
+
     # Items
-    path('get_orcamentos/', OrcamentosAllViewSet.as_view(), name='get_orcamentos'),
+    path('get_item/', ItemViewSet.as_view(), name='get_item'),
+    path('get_all_items/', ItemsAllViewSet.as_view(), name='get_all_items'),
+    path('set_add_item/', ItemsAddViewSet.as_view(), name='set_add_item'),
 
     # Orçamentos
-    path('get_orcamentos/', OrcamentosAllViewSet.as_view(), name='get_orcamentos'),
-    path('set_orcamentos/', OrcamentosAddViewSet.as_view(), name='set_orcamentos'),
+    path('get_orcamento/', OrcamentoViewSet.as_view(), name='get_orcamento'),
+    path('set_add_orcamento/', OrcamentosAddViewSet.as_view(), name='set_add_orcamento'),
+    path('get_all_orcamentos/', OrcamentosAllViewSet.as_view(), name='get_all_orcamentos'),
+
+    # Categorias
+    path('get_categoria/', CategoriaViewSet.as_view(), name='get_categoria'),
+    path('set_add_categoria/', CategoriaAddViewSet.as_view(), name='set_add_categoria'),
+    path('get_all_categorias/', CategoriaAllViewSet.as_view(), name='get_all_categorias'),
 
 ]
