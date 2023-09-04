@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Calculadora de orçamento para construção
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Esse projeto foi frito com [Create React App](https://github.com/facebook/create-react-app) e utilizando o template [ESS React Dashboard](https://github.com/adnanhassan1234/ESS-React-Admin-Dashboard/tree/main).
 
-## Available Scripts
+## Frontend
 
 In the project directory, you can run:
 
