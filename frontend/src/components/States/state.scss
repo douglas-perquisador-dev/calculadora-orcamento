@@ -1,0 +1,94 @@
+@mixin common {
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+.states {
+    .cardList {
+        // background-color: #3F84FC;
+        padding: 18px 23px;
+
+        h4 {
+            font-size: 26px;
+            @include common;
+            margin-bottom: 28px;
+
+        }
+
+        h2 {
+            font-size: 33px;
+            line-height: 33px;
+            @include common;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        span {
+            opacity: 0.5;
+        }
+
+        .fa {
+            font-size: 23px;
+        }
+    }
+
+    .form-select {
+        display: block;
+        width: 38% !important;
+        margin-left: auto;
+    }
+
+    .checkbox-group {
+        margin-left: auto;
+
+        input {
+            margin: 15px;
+        }
+    }
+
+    .btn {
+        background-color: #3F84FC;
+        color: white;
+    }
+
+    .dropdown {
+        width: 19% !important;
+        margin-left: auto;
+
+        .form-check-input:checked {
+            background-color: #3F84FC;
+            border-color: #3F84FC;
+            border: 2px solid #3F84FC;
+            
+        }
+
+        .dropdown-menu {
+            padding: 6px;
+
+        }
+
+
+    }
+
+
+}
+
+// chart_notification
+.chart_notification {
+    .card {
+        .card-header {
+            background-color: #F0F1F7;
+            padding: 11px !important;
+        }
+    }
+
+    .recharts-layer {
+        font-size: 14px !important;
+    }
+}
+
+.form-select .selected {
+    background-color: #3F84FC !important;
+    color: white;
+   
+}

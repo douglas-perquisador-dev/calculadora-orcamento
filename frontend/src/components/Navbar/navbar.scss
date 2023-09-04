@@ -1,0 +1,49 @@
+.navbar {
+    margin-left: -16px !important;
+    margin-right: -20px !important;
+    background-color: #F3F3F3;
+    border-radius: 0px;
+
+    .fa-bell {
+        font-size: 29px;
+        color: black;
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    ::placeholder {
+        font-size: 17px;
+        color: #6e6d6d;
+    }
+
+    .fa {
+        font-size: 22px;
+    }
+    .fa-bars{
+        cursor: pointer;
+    }
+
+    .input-group-text {
+        background-color: transparent !important;
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+    input {
+        @extend .input-group-text;
+    }
+
+    .warning {
+        background-color: #FF5A00 !important;
+    }
+
+    @media (max-width: 991px) {
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        // padding: 14px;
+        .navbar_small{
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+// chart_notification
+.cards_section{
+    .card{
+        .card-header {
+            background-color: #F0F1F7;
+            padding: 11px !important;
+            &:nth-child(:first){
+                color: white;
+            }
+        }
+    }
+    .recharts-layer{
+        font-size: 14px !important;
+    }
+}
