@@ -72,7 +72,6 @@ class OrcamentosAllViewSet(APIView):
                 'message': f'Sem Orcamentos para listar'
             })
 
-
     @classmethod
     def get_extra_actions(cls):
         return []
@@ -115,7 +114,7 @@ class OrcamentosAddViewSet(APIView):
                 item_orc = ItemsOrc(
                     item_id=item['id_item'],
                     qtd=item['qtd'],
-                    valor=item['valor'],
+                    valor=item['subtotal'],
                     orcamento_id=orc.id_orc
                 )
 
@@ -129,8 +128,49 @@ class OrcamentosAddViewSet(APIView):
 
         return Response({
             'status': '200',
-            'message': 'feedback salvo com sucesso'
+            'message': 'Orçamento salvo com sucesso'
         })
+
+    @classmethod
+    def get_extra_actions(cls):
+        return []
+
+
+class OrcamentoGraficoViewSet(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = [JSONRenderer]
+
+    @staticmethod
+    def post(request, *args, **kwargs):
+
+        data = json.loads(request.body)
+
+        qtd_itens: int = data['qtd_total']
+        valor_orc: float = data['valor_total']
+        list_items: list[dict] = data['items']
+
+        category_group = {}
+        list_value_by_catego = []
+
+        try:
+            for item in list_items:
+                if item['name_catego'] not in category_group:
+                    category_group[item['name_catego']] = []
+                category_group[item['name_catego']].append(item)
+
+            for catego, items in category_group.items():
+                soma_valores = sum(obj['subtotal'] for obj in items)
+                list_value_by_catego.append({"name": catego, "value": soma_valores})
+
+            return Response(list_value_by_catego)
+
+
+        except Exception as e:
+            return Response({
+                'status': '400',
+                'message': f'Erro ao gerar Grafico de cagegorias. {e}'
+            })
+
 
     @classmethod
     def get_extra_actions(cls):

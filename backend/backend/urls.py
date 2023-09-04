@@ -10,7 +10,8 @@ from rest_framework_simplejwt.views import (
 )
 from backend.categorias.views import CategoriaViewSet, CategoriaAddViewSet, CategoriaAllViewSet
 from backend.items.views import ItemsAllViewSet, ItemsAddViewSet, ItemViewSet
-from backend.orcamento.views import OrcamentosAllViewSet, OrcamentosAddViewSet, OrcamentoViewSet
+from backend.orcamento.views import OrcamentosAllViewSet, OrcamentosAddViewSet, OrcamentoViewSet, \
+    OrcamentoGraficoViewSet
 from backend.users.views import RegisterView, LogoutView
 
 schema_view = get_schema_view(
@@ -47,6 +48,7 @@ urlpatterns = [
     path('get_orcamento/', OrcamentoViewSet.as_view(), name='get_orcamento'),
     path('set_add_orcamento/', OrcamentosAddViewSet.as_view(), name='set_add_orcamento'),
     path('get_all_orcamentos/', OrcamentosAllViewSet.as_view(), name='get_all_orcamentos'),
+    path('get_graph_orcamentos/', OrcamentoGraficoViewSet.as_view(), name='get_graph_orcamentos'),
 
     # Categorias
     path('get_categoria/', CategoriaViewSet.as_view(), name='get_categoria'),

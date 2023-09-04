@@ -53,11 +53,11 @@ class CategoriaAllViewSet(APIView):
     def get(request):
         # queryset = Categorias.objects.all()
         try:
-            queryset = Categorias.objects.filter(is_active=True).order_by('nome_catego')
+            queryset = Categorias.objects.filter(is_active=True).order_by('id_catego')
             categorias = []
             for catego in queryset:
                 categorias.append({
-                    'id': catego.id,
+                    'id': catego.id_catego,
                     'nome_catego': catego.nome_catego,
                     'descri': catego.descri
                 })

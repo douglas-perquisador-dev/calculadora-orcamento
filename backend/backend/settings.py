@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'backend.categorias',
     'backend.items',
     'backend.orcamento',
+    'corsheaders',
     'backend.users'
 ]
 
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -183,3 +185,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.UserData'
+
+# Permitir todos os domínios
+CORS_ALLOW_ALL_ORIGINS = True
+
+# OU especificar domínios
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    # outros domínios que precisam de acesso
+]

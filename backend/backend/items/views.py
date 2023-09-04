@@ -59,11 +59,12 @@ class ItemsAllViewSet(APIView):
             items = []
             for item in queryset:
                 items.append({
-                    'id': item.id,
+                    'id_item': item.id_item,
                     'nome_item': item.nome_item,
                     'valor': item.valor,
-                    'id_catego': item.categoria.id,
+                    'id_catego': item.categoria.id_catego,
                     'name_catego': item.categoria.nome_catego,
+                    'descri': item.descri
                 })
             return Response({"items": items})
 
